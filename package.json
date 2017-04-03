@@ -1,0 +1,13 @@
+{
+  "name": "pixi-sandbox",
+  "version": "1.0.0",
+  "description": "Foolin' around with pixi.js",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "start"
+  },
+  "author": "Kevin Bigler",
+  "license": "ISC"
+}

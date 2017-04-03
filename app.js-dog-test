@@ -1,0 +1,73 @@
+var app = new PIXI.Application(800, 600, {transparent : true});
+// var app = new PIXI.Application(800, 600, {backgroundColor : 0x1099bb});
+// var app = new PIXI.Application(800, 600);
+document.getElementById('display').appendChild(app.view);
+
+// create a new Sprite from an image path
+// var dog = PIXI.Sprite.fromImage('assets/img/dog.png');
+var dogTexture = PIXI.Texture.fromImage('assets/img/dog.png');
+var dog = new PIXI.Sprite(dogTexture);
+
+dog.width = 150;
+dog.height = 150;
+
+// center the sprite's anchor point
+dog.anchor.set(0.5);
+
+// move the sprite to the center of the screen
+dog.x = app.renderer.width / 2;
+dog.y = app.renderer.height / 2;
+
+// enable the dog to be interactive... this will allow it to respond to mouse and touch events
+dog.interactive = true;
+
+// this button mode will mean the hand cursor appears when you roll over the dog with your mouse
+dog.buttonMode = true;
+
+// center the dog's anchor point
+dog.anchor.set(0.5);
+
+// make it a bit bigger, so it's easier to grab
+dog.scale.set(3);
+
+// setup events for mouse + touch using
+// the pointer events
+dog
+  .on('pointerdown', onDragStart)
+  .on('pointerup', onDragEnd)
+  .on('pointerupoutside', onDragEnd)
+  .on('pointermove', onDragMove);
+
+app.stage.addChild(dog);
+
+// Listen for animate update
+app.ticker.add(function(delta) {
+    // just for fun, let's rotate mr rabbit a little
+    // delta is 1 if running at 100% performance
+    // creates frame-independent tranformation
+    dog.rotation += 0.1 * delta;
+});
+
+function onDragStart(event) {
+    // store a reference to the data
+    // the reason for this is because of multitouch
+    // we want to track the movement of this particular touch
+    this.data = event.data;
+    this.alpha = 0.5;
+    this.dragging = true;
+}
+
+function onDragEnd() {
+    this.alpha = 1;
+    this.dragging = false;
+    // set the interaction data to null
+    this.data = null;
+}
+
+function onDragMove() {
+    if (this.dragging) {
+        var newPosition = this.data.getLocalPosition(this.parent);
+        this.x = newPosition.x;
+        this.y = newPosition.y;
+    }
+}

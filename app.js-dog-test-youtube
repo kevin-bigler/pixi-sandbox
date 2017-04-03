@@ -1,0 +1,39 @@
+PIXI.utils.sayHello();
+
+var renderer = PIXI.autoDetectRenderer(512, 512, {
+	transparent: true,
+	resolution: 1
+});
+document.getElementById('display').appendChild(renderer.view);
+
+var stage = new PIXI.Container();
+
+PIXI.loader
+	.add('assets/img/dog.png')
+	.load(setup);
+
+var dog;
+
+function setup() {
+	dog = new PIXI.Sprite(
+		PIXI.loader.resources['assets/img/dog.png'].texture
+	);
+
+	stage.addChild(dog);
+	dog.anchor.set(0.5, 0.5);
+	// dog.scale.set(0.4, 0.4);
+	dog.width = 150;
+	dog.height = 150;
+	dog.x = renderer.width / 2;
+	dog.y = renderer.height / 2;
+
+	animationLoop();
+}
+
+function animationLoop() {
+	requestAnimationFrame(animationLoop);
+
+	dog.rotation += 0.01;
+
+	renderer.render(stage);
+}

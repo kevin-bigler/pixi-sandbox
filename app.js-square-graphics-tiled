@@ -1,0 +1,41 @@
+var appWidth = 800;
+var appHeight = 600;
+
+var app = new PIXI.Application(appWidth, appHeight, {transparent : true});
+document.getElementById('display').appendChild(app.view);
+
+// used for width and height
+var squareSize = 100;
+// var squareColor = 0xFF700B;
+var squareColor = 0x7faaef;
+
+var createSquare = function(x, y, size, color) {
+  var square = new PIXI.Graphics();
+  // set the lineStyle to 0 so the square doesn't have an outline
+  // square.lineStyle(0);
+  // square.lineStyle(2, 0x0000FF, 1);
+  square.lineStyle(2, 'black', 1);
+  square.beginFill(color, 1);
+  square.drawRect(x, y, size, size);
+
+  app.stage.addChild(square);
+
+  return square;
+}
+
+// draw the game board squares
+var squares = [];
+for (var y = 0; y < Math.floor(appHeight / squareSize); y++) {
+  // do a row
+  var row = [];
+  for (var x = 0; x < Math.floor(appWidth / squareSize); x++) {
+    row.push(
+      createSquare(x * squareSize, y * squareSize, squareSize, squareColor)
+    );
+  }
+  squares.push(row);
+}
+
+// squares[y][x].
+
+
